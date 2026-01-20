@@ -46,7 +46,7 @@ const authMiddleware = async (req, res, next) => {
 // ======================
 router.post('/register', async (req, res) => {
     try {
-        console.log('📝 Register request:', req.body.email);
+        console.log('Register request:', req.body.email);
 
         const { name, email, password, confirmPassword } = req.body;
 
@@ -97,7 +97,7 @@ router.post('/register', async (req, res) => {
             { expiresIn: '7d' }
         );
 
-        console.log('✅ User registered:', user.email);
+        console.log('User registered:', user.email);
 
         res.status(201).json({
             success: true,
@@ -112,7 +112,7 @@ router.post('/register', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('❌ Registration error:', error);
+        console.error('Registration error:', error);
         res.status(500).json({
             error: 'Registration failed',
             details: process.env.NODE_ENV === 'development' ? error.message : undefined
@@ -125,7 +125,7 @@ router.post('/register', async (req, res) => {
 // ======================
 router.post('/login', async (req, res) => {
     try {
-        console.log('🔐 Login attempt:', req.body.email);
+        console.log('Login attempt:', req.body.email);
 
         const { email, password } = req.body;
 
@@ -144,7 +144,7 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email: email.toLowerCase().trim() });
 
         if (!user) {
-            console.log('❌ User not found:', email);
+            console.log('User not found:', email);
             return res.status(400).json({
                 error: 'Invalid credentials',
                 suggestion: 'Please check your email and password'
@@ -155,7 +155,7 @@ router.post('/login', async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            console.log('❌ Invalid password for:', email);
+            console.log('Invalid password for:', email);
             return res.status(400).json({
                 error: 'Invalid credentials',
                 suggestion: 'Please check your email and password'
@@ -169,7 +169,7 @@ router.post('/login', async (req, res) => {
             { expiresIn: '7d' }
         );
 
-        console.log('✅ Login successful:', user.email);
+        console.log('Login successful:', user.email);
 
         res.json({
             success: true,
@@ -184,7 +184,7 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('❌ Login error:', error);
+        console.error('Login error:', error);
         res.status(500).json({
             error: 'Login failed',
             details: process.env.NODE_ENV === 'development' ? error.message : undefined
